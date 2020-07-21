@@ -43,6 +43,8 @@ function counterMaker() {
 }
 
 const counter1 = counterMaker();
+console.log('Counter1: ', counter1);
+
 
 // counter2 code
 let count = 0;
@@ -51,16 +53,27 @@ function counter2() {
   return count++;
 }
 
+console.log('Counter2: ', counter2(), count);
+
+/* Task 1:
+  1. The difference between counter1 and counter2 is that the variable count is global for counter2 while counter1 is only accessible through the function
+
+  2. counter2 uses closure because the function is utilizing a variable created outside of its scope.
+
+  3. A scenario in which counter1 would be preferrable is if you want the value of count to reset every time the web page is reloaded. The value is kept only as the function is called. 
+  Counter2's count variable is global and the value of it is continually incrementing. 
+*/
+
 
 /* Task 2: inning() 
 
 Write a function called `inning` that returns a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
 
-function inning(/*Code Here*/){
-
-    /*Code Here*/
-
+function inning(){
+  return Math.round(Math.random() * 2);
 }
+
+console.log('Task 2: ', inning());
 
 /* Task 3: finalScore()
 
@@ -76,17 +89,26 @@ finalScore(inning, 9) might return:
 
 */ 
 
-function finalScore(/*code Here*/){
+function finalScore(score, num) {
+  let scores = {
+    "Home": 0,
+    "Away": 0,
+  };
 
-  /*Code Here*/
-
+  for(let i = 0; i < num; i++) {
+    scores.Home += score();
+    scores.Away += score();
+  }
+  return scores;
 }
+
+console.log('Task 3: ', finalScore(inning, 9));
 
 /* Task 4: 
 
 Create a function called `scoreboard` that accepts the following parameters: 
 
-(1) Callback function `getInningScore`
+(1) Callback function `getInningScore`/'getFinalScore
 (2) Callback function `inning`
 (3) A number of innings
 
@@ -103,8 +125,66 @@ and returns the score at each pont in the game, like so:
 Final Score: awayTeam - homeTeam */
 
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScore, inning, numInnings) {
+  let finalScores = {
+    "Home": 0,
+    "Away": 0,
+  }
+
+  for(let i = 1; i <= numInnings; i++) {
+    let scores = getInningScore(inning, 1);
+
+    finalScores.Home += scores.Home;
+    finalScores.Away += scores.Away;
+
+    console.log(`Inning ${i}: Away ${finalScores.Away} - Home ${finalScores.Home}`);
+  }
+
+  return `Final Score: Away ${finalScores.Away} - Home ${finalScores.Home}`;
+}
+
+console.log('Task 4: ', scoreboard(finalScore, inning, 9));
+
+
+
+// walk-through solution from zoom call with everyone 
+// come back and compare to your solution
+/*
+function inning() {
+  return Math.floor(Math.random() *3);
+};
+
+const finalScore = function(func, num) {
+  let score = {
+    'Home':0,
+    'Away':0
+  }
+
+  for(let i = 0; i < num; i++) {
+    score.Home += func();
+    score.Away += func();
+  }
+
+  return score;
 }
 
 
+function scoreboard(inningSB, inning, num) {
+  let total = {
+    'Home':0,
+    'Away':0
+  }
+
+  for(let i = 0; i < num; i++) {
+    let score = inningSB(inning, 1);
+
+    total.Home += score.Home;
+    total.Away += score.Away;
+
+    console.log(`Inning ${i}: Away ${score.Away} - Home ${score.Home}`);
+  }
+
+  return `Final Score ${i}: Home ${total.Home} - Away ${total.Away}`;
+}
+
+console.log(scoreboard(finalScore, inning, 9)); */
