@@ -188,3 +188,33 @@ function scoreboard(inningSB, inning, num) {
 }
 
 console.log(scoreboard(finalScore, inning, 9)); */
+
+
+/* 2b. 
+
+  1. Closure is when you have a function reaching outward to a variable. 
+
+  2a. Closure happens in this function when the nest function is reaching toward the argument passed through the outside function. You can tell this because the inner function is utilzing a component passed through the function on the outside. 
+
+  2b. The output will always be a number between 1 and 6. What can change is the number output from the function. Dan's roll will always run Math.random
+
+  2c. The lexical scope of newRoll is personalDice.
+
+*/ 
+
+
+function personalDice(name){
+  return function(){
+      // generate random number between 1 and 6
+    const newRoll = Math.floor(Math.random() * 6);
+    console.log(`${name} rolled a ${newRoll}`)
+  }
+}
+
+const dansRoll = personalDice("Dan");
+
+const zoesRoll = personalDice("Zoe");
+
+
+dansRoll();
+dansRoll();
